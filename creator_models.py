@@ -1,6 +1,3 @@
-"""
-Creator Posts System - Database Models
-"""
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -12,7 +9,7 @@ class CreatorPost(Base):
     __tablename__ = "creator_posts"
     
     id = Column(String, primary_key=True)
-    creator_id = Column(String, ForeignKey('users.id'), nullable=False)
+    creator_id = Column(Integer, ForeignKey('users.id'), nullable=False)  # Changed to Integer
     image_url = Column(String, nullable=False)
     video_url = Column(String, nullable=True)
     is_video = Column(Boolean, default=False)
@@ -22,7 +19,6 @@ class CreatorPost(Base):
     likes_count = Column(Integer, default=0)
     views_count = Column(Integer, default=0)
     
-    # No back_populates - one-way relationship only
     products = relationship("PostProduct", back_populates="post", cascade="all, delete-orphan")
 
 
