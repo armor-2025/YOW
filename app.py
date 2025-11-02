@@ -83,7 +83,6 @@ def seed_data(db = Depends(get_db)):
                 product_name=product_data["name"],
                 product_brand=product_data["brand"],
                 product_image=product_data["image"],
-git push origin main
                 product_price=product_data["price"],
                 affiliate_link=f"https://example.com/product/{j}",
                 commission_rate=0.10,
