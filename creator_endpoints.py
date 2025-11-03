@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional, Union
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -26,15 +26,13 @@ class PostProductResponse(BaseModel):
 
 class CreatorPostResponse(BaseModel):
     id: str
-    creator_id: int  # Changed to int
+    creator_id: Union[int, str]  # Accept both types
     image_url: str
     video_url: Optional[str]
     is_video: bool
     product_count: int
     caption: Optional[str]
     created_at: datetime
-):
-    }
     likes_count: int
     views_count: int
     products: List[PostProductResponse] = []
@@ -53,6 +51,7 @@ def get_creator_posts(
     limit: int = 20,
     offset: int = 0,
     db: Session = Depends(get_db)
+):
     """Get posts for a specific creator"""
     total_count = db.query(CreatorPost).filter(
         CreatorPost.creator_id == creator_id
@@ -70,3 +69,4 @@ def get_creator_posts(
         "posts": posts,
         "total_count": total_count,
         "has_more": has_more
+    }
